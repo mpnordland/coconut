@@ -1,0 +1,17 @@
+
+p {
+    font-weight: bold;
+}
+
+#header {
+    background-color: #0088cc;
+    color: #ffffff;
+    padding:2em;
+    border: black 10px;
+}
+
+#content {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
