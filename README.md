@@ -14,5 +14,7 @@ TODO
 
  -  Move the theme.html file to `static`
  -  Add a system for arbitrary pages
+ -  Add a way to list blog articles on the front page
+ -  Add metadata to articles
 
 
