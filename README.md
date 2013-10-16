@@ -10,7 +10,7 @@ Articles are in Markdown and should be placed in `articles` with the file extens
 The front, login, and publish pages are in there as well.
 
 TODO
-====
+----
 
  -  Move the theme.html file to `static`
  -  Add a system for arbitrary pages
