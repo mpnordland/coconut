@@ -9,6 +9,7 @@ type Config struct {
 	Users   map[string]string
 	Address string
 	Port    string
+    UseHTTPS bool
     Certfile string
     Keyfile string
 }
