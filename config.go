@@ -2,6 +2,7 @@ package main
 
 import (
 	"io/ioutil"
+    "fmt"
 	"launchpad.net/goyaml"
 )
 
@@ -9,6 +10,7 @@ type Config struct {
 	Users   map[string]string
 	Address string
 	Port    string
+    Pages map[string]string
     UseHTTPS bool
     Certfile string
     Keyfile string
