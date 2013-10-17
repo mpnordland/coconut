@@ -16,7 +16,7 @@ type PageHandler struct {
 }
 
 func NewPageHandler(sm *SessionManager) *PageHandler {
-	return &PageHandler{sm, template.Must(template.ParseFiles("./articles/theme.html"))}
+	return &PageHandler{sm, template.Must(template.ParseFiles("./static/theme.html"))}
 }
 
 func (ph *PageHandler) front(ctx *web.Context) {
