@@ -9,22 +9,18 @@ import (
 func main() {
 	c, err := LoadConfig("./conf.yaml")
     handleFatalError(err)
-
-	sm := NewSessionManager(c)
-	ph := NewPageHandler(sm)
-
-    //add handlers
-	web.Get("/", ph.front)
-	web.Get("/publish", ph.publish)
-	web.Post("/publish", ph.publishPost)
-	web.Get("/login", ph.login)
-	web.Post("/login", ph.loginPost)
-	web.Get("/(.*)", ph.article)
-
     //setup the key for secret cookies
 	s, err := makeKey(64)
 	handleFatalError(err)
 	web.Config.CookieSecret = string(s)
+
+    //setup server and handlers
+    server := web.NewServer()
+	sm := NewSessionManager(c)
+	ph := NewPageHandler(sm)
+
+    ph.setupHandlers(server, c)
+
 
     if c.UseHTTPS {
         //setup for https
@@ -40,9 +36,9 @@ func main() {
             return
         }
 
-        web.RunTLS(c.Address+":"+c.Port, &config)
+        server.RunTLS(c.Address+":"+c.Port, &config)
 
     } else {
-        web.Run(c.Address+":"+c.Port)
+        server.Run(c.Address+":"+c.Port)
     }
 }

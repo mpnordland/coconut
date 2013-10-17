@@ -16,7 +16,22 @@ type PageHandler struct {
 }
 
 func NewPageHandler(sm *SessionManager) *PageHandler {
-	return &PageHandler{sm, template.Must(template.ParseFiles("./static/theme.html"))}
+    return &PageHandler{sm, template.Must(template.ParseFiles("./static/theme.html"))}
+}
+
+func (ph *PageHandler) setupHandlers(s *web.Server, c *Config) {
+    //handle any pages setup in the config file
+    for url, fileName := range c.Pages{
+        s.Get(url, makeHandler(ph, "./static/"+fileName))
+    }
+
+    //add handlers for default pages
+	s.Get("/", ph.front)
+	s.Get("/publish", ph.publish)
+	s.Post("/publish", ph.publishPost)
+	s.Get("/login", ph.login)
+	s.Post("/login", ph.loginPost)
+	s.Get("/(.*)", ph.article)
 }
 
 func (ph *PageHandler) front(ctx *web.Context) {

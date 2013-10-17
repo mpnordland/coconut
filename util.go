@@ -30,3 +30,9 @@ func handleFatalError(err error) {
         log.Fatalln("Fatal: coconut has exerienced an error:", err)
     }
 }
+
+func makeHandler(ph *PageHandler, fileName string) func(*web.Context) {
+    return func(ctx *web.Context) {
+            getPage(ctx, ph.tmpl, fileName)
+    }
+}

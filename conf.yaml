@@ -7,8 +7,7 @@ address: 0.0.0.0
 port: 8888
 
 pages: 
-    front: front.html
-    about: pages/about.html
+    /about: pages/about.html
 
 
 #if you set this to true, you must set the properties below
