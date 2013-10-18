@@ -3,8 +3,7 @@ coconut
 
 A simple markdown based blog engine.
 
-The configuration file is conf.yaml. It *must* exist and follow the structure of conf.yaml.example
-because there are no builtin defaults.
+The configuration file is conf.yaml. It *must* exist because there are no builtin defaults.
 
 Articles are in Markdown and should be placed in `articles` with the file extension ".md". The theme file is in `articles/theme.html`. Any static files like CSS and images should be placed in `static`.
 The front, login, and publish pages are in there as well.
