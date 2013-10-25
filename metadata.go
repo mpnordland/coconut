@@ -18,6 +18,5 @@ func GetMetadata(data []byte) (*Metadata, []byte) {
     if err != nil {
         fmt.Println("Error parsing metadata:", err)
     }
-    fmt.Println(m.Date)
     return &m, cont
 }

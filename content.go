@@ -10,7 +10,7 @@ import (
         "sort"
 )
 
-const DateFormat = "Jan _2 2006"
+const DateFormat = "Jan _2 2006 15:04"
 
 
 type Article struct {
@@ -62,7 +62,6 @@ func GetArticles() ArticleSlice {
         return nil
     }
     for _, f := range files {
-        fmt.Println(f)
         if strings.HasSuffix(f, ".md") {
             a, err := GetArticle(f)
             if err != nil {
