@@ -3,11 +3,21 @@ p {
     font-weight: bold;
 }
 
+pre {
+    border: 2px solid #444;
+}
+
+pre, code{
+    background-color: #eee;
+    color: #333;
+    padding: 2px;
+    border-radius: 5px;
+}
+
 #header {
     background-color: #905B40;
-    color: #ffffff;
+    color: #eee;
     padding:2em;
-    border: black 10px;
 }
 
 #content {
@@ -15,3 +25,16 @@ p {
     margin-left: auto;
     margin-right: auto;
 }
+
+.tags {
+    font-size: 8pt;
+    font-weight: bold;
+    border-top: 2px solid #333;
+    padding: 2px;
+}
+
+.header-link {
+    text-decoration: none;
+    color: inherit;
+}
+

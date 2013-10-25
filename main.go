@@ -8,18 +8,28 @@ import (
 
 func main() {
 	c, err := LoadConfig("./conf.yaml")
-    handleFatalError(err)
+    if err != nil {
+        fmt.Println("Error loading config file:", err)
+    }
     //setup the key for secret cookies
 	s, err := makeKey(64)
-	handleFatalError(err)
+    if err != nil {
+        fmt.Println("Error setting up secure cookies:", err)
+        return
+    }
 	web.Config.CookieSecret = string(s)
 
     //setup server and handlers
     server := web.NewServer()
 	sm := NewSessionManager(c)
-	ph := NewPageHandler(sm)
+    te, err := NewThemeEngine()
+    if err != nil {
+        fmt.Println("Error creating theme engine:", err)
+        return
+    }
+	controller := Controller{te, sm}
 
-    ph.setupHandlers(server, c)
+    controller.Init(c, server)
 
 
     if c.UseHTTPS {

@@ -32,7 +32,7 @@ func (sm *SessionManager) LoggedIn(ctx *web.Context) bool {
 	return false
 }
 
-func (sm *SessionManager) CreateSession(ctx *web.Context, user, pass string) bool {
+func (sm *SessionManager) Login(ctx *web.Context, user, pass string) bool {
 	if pHash, ok := sm.users[user]; ok && bcrypt.CompareHashAndPassword([]byte(pHash), []byte(pass)) != nil {
 		id := makeSessionId()
 		sm.sessions = append(sm.sessions, id)

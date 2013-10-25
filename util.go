@@ -1,38 +1,15 @@
 package main
 
-import (
-	"fmt"
-	"github.com/hoisie/web"
-	"html/template"
-	"io"
-	"io/ioutil"
-    "log"
-)
+type ArticleSlice []*Article
 
-func getPage(ctx *web.Context, tmpl *template.Template, name string) {
-	cont, err := ioutil.ReadFile(name)
-	if err != nil {
-		ctx.NotFound("Woops, something's messed up, your " + name + " file is gone!")
-		return
-	}
-	theme(ctx, tmpl, template.HTML(string(cont)))
+func (as ArticleSlice) Len() int {
+    return len(as)
 }
 
-func theme(w io.Writer, temp *template.Template, cont interface{}) {
-	err := temp.ExecuteTemplate(w, "theme.html", cont)
-	if err != nil {
-		fmt.Println(err)
-	}
+func (as ArticleSlice) Less(i, j int) bool {
+    return as[i].Time.Before(as[j].Time)
 }
 
-func handleFatalError(err error) {
-    if err != nil {
-        log.Fatalln("Fatal: coconut has exerienced an error:", err)
-    }
-}
-
-func makeHandler(ph *PageHandler, fileName string) func(*web.Context) {
-    return func(ctx *web.Context) {
-            getPage(ctx, ph.tmpl, fileName)
-    }
+func (as ArticleSlice) Swap(i, j int) {
+    as[i], as[j] = as[j], as[i]
 }
