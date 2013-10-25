@@ -1,10 +1,10 @@
 package main
 
 import (
+	"code.google.com/p/go.crypto/bcrypt"
 	"github.com/hoisie/web"
 	"math/rand"
 	"strconv"
-    "code.google.com/p/go.crypto/bcrypt"
 )
 
 type SessionManager struct {
@@ -33,9 +33,9 @@ func (sm *SessionManager) LoggedIn(ctx *web.Context) bool {
 }
 
 func (sm *SessionManager) Login(ctx *web.Context, user, pass string) bool {
-    if sm.LoggedIn(ctx) {
-        return true
-    }
+	if sm.LoggedIn(ctx) {
+		return true
+	}
 	if pHash, ok := sm.users[user]; ok && bcrypt.CompareHashAndPassword([]byte(pHash), []byte(pass)) != nil {
 		id := makeSessionId()
 		sm.sessions = append(sm.sessions, id)

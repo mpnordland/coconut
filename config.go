@@ -6,24 +6,24 @@ import (
 )
 
 type Config struct {
-	Users   map[string]string
-	Address string
-	Port    string
-    Pages map[string]string
-    UseHTTPS bool
-    Certfile string
-    Keyfile string
+	Users    map[string]string
+	Address  string
+	Port     string
+	Pages    map[string]string
+	UseHTTPS bool
+	Certfile string
+	Keyfile  string
 }
 
 func LoadConfig(filename string) (*Config, error) {
 	cont, err := ioutil.ReadFile(filename)
-    if err != nil {
-        return nil, err
-    }
+	if err != nil {
+		return nil, err
+	}
 	c := Config{}
 	err = goyaml.Unmarshal(cont, &c)
 	if err != nil {
-        return nil, err
+		return nil, err
 	}
 	return &c, nil
 }

@@ -1,117 +1,116 @@
 package main
 
 import (
-        "github.com/hoisie/web"
-        "os"
-        "io"
+	"github.com/hoisie/web"
+	"io"
+	"os"
 )
 
 type Controller struct {
-    themeEngine *ThemeEngine
-    sessionManager *SessionManager
+	themeEngine    *ThemeEngine
+	sessionManager *SessionManager
 }
 
 func (c *Controller) Init(conf *Config, s *web.Server) {
-    s.Get("/", c.Front)
-    s.Get("/login", c.Login)
-    s.Get("/publish", c.Publish)
-    s.Post("/login", c.LoginPost)
-    s.Post("/publish", c.PublishPost)
-    for url, filename := range conf.Pages {
-        s.Get(url, c.makePageFunc(filename))
-    }
-    s.Get("/tag/(.*)", c.Tag)
-    s.Get("/(.*)", c.Article)
+	s.Get("/", c.Front)
+	s.Get("/login", c.Login)
+	s.Get("/publish", c.Publish)
+	s.Post("/login", c.LoginPost)
+	s.Post("/publish", c.PublishPost)
+	for url, filename := range conf.Pages {
+		s.Get(url, c.makePageFunc(filename))
+	}
+	s.Get("/tag/(.*)", c.Tag)
+	s.Get("/(.*)", c.Article)
 }
 
 func (c *Controller) makePageFunc(filename string) func() string {
-    return func() string {
-            return c.Page(filename)
-    }
+	return func() string {
+		return c.Page(filename)
+	}
 }
 
 func (c *Controller) Front() string {
-    var content string
-    articles := GetArticles()
-    for _, a := range articles {
-        content += c.themeEngine.ThemeArticle(a)
-    }
-    if content == "" {
-        content = "No articles found"
-    }
-    return c.themeEngine.Theme(content)
+	var content string
+	articles := GetArticles()
+	for _, a := range articles {
+		content += c.themeEngine.ThemeArticle(a)
+	}
+	if content == "" {
+		content = "No articles found"
+	}
+	return c.themeEngine.Theme(content)
 }
 
 func (c *Controller) Article(name string) string {
-    a, err := GetArticle(name+".md")
-    if err != nil {
-        return c.themeEngine.Theme("Couldn't find article \""+name+"\"")
-    }
-    return c.themeEngine.Theme(c.themeEngine.ThemeArticle(a))
+	a, err := GetArticle(name + ".md")
+	if err != nil {
+		return c.themeEngine.Theme("Couldn't find article \"" + name + "\"")
+	}
+	return c.themeEngine.Theme(c.themeEngine.ThemeArticle(a))
 }
 
 func (c *Controller) Page(path string) string {
-    p, err := GetPage(path)
-    if err != nil {
-        return c.themeEngine.Theme("No page at \"" + path + "\"")
-    }
-    return c.themeEngine.Theme(c.themeEngine.ThemePage(p))
+	p, err := GetPage(path)
+	if err != nil {
+		return c.themeEngine.Theme("No page at \"" + path + "\"")
+	}
+	return c.themeEngine.Theme(c.themeEngine.ThemePage(p))
 }
 
-
-func (c *Controller) Tag(tag string) string{
-     var content string
-    articles := GetArticles()
-    for _, a := range articles {
-        if a.HasTag(tag) {
-            content += c.themeEngine.ThemeArticle(a)
-        }
-    }
-    if content == "" {
-        content = "No articles found"
-    }
-    return c.themeEngine.Theme(content)
+func (c *Controller) Tag(tag string) string {
+	var content string
+	articles := GetArticles()
+	for _, a := range articles {
+		if a.HasTag(tag) {
+			content += c.themeEngine.ThemeArticle(a)
+		}
+	}
+	if content == "" {
+		content = "No articles found"
+	}
+	return c.themeEngine.Theme(content)
 }
 
 func (c *Controller) Login() string {
-    return c.Page("login.html")
+	return c.Page("login.html")
 }
 
 func (c *Controller) LoginPost(ctx *web.Context) {
-    user := ctx.Params["user"]
-    pass := ctx.Params["pass"]
-    dest := "/login"
-    if c.sessionManager.Login(ctx, user, pass) {
-        ctx.WriteString(c.themeEngine.Theme("You are logged in"))
-        dest = "/publish"
-    } else {
-        ctx.WriteString(c.themeEngine.Theme("Incorrect Username/Password"))
-    }
-    ctx.WriteString("<meta HTTP-EQUIV=\"REFRESH\" content=\"2; url="+dest+"\">")
+	user := ctx.Params["user"]
+	pass := ctx.Params["pass"]
+	dest := "/login"
+	if c.sessionManager.Login(ctx, user, pass) {
+		ctx.WriteString(c.themeEngine.Theme("You are logged in"))
+		dest = "/publish"
+	} else {
+		ctx.WriteString(c.themeEngine.Theme("Incorrect Username/Password"))
+	}
+	ctx.WriteString("<meta HTTP-EQUIV=\"REFRESH\" content=\"2; url=" + dest + "\">")
 }
 
-func (c *Controller) Publish(ctx *web.Context){
-    if !c.sessionManager.LoggedIn(ctx) {
-        ctx.Redirect(303, "/login")
-        return
-    }
-    ctx.WriteString(c.Page("publish.html"))
+func (c *Controller) Publish(ctx *web.Context) {
+	if !c.sessionManager.LoggedIn(ctx) {
+		ctx.Redirect(303, "/login")
+		return
+	}
+	ctx.WriteString(c.Page("publish.html"))
 }
 
 func (c *Controller) PublishPost(ctx *web.Context) {
-    if !c.sessionManager.LoggedIn(ctx) {
-        ctx.Redirect(303, "/login")
-        return
-    }
+	if !c.sessionManager.LoggedIn(ctx) {
+		ctx.Redirect(303, "/login")
+		return
+	}
 
-    file, head, err := ctx.Request.FormFile("publishFile")
-    if err != nil {
-        ctx.Abort(405, "error, post without a file")
-        return
-    }
-    saveFile, err := os.Create("articles/" + head.Filename)
-    defer saveFile.Close()
-    io.Copy(saveFile, file)
-    file.Close()
-    ctx.Redirect(303, "/publish")
+	file, head, err := ctx.Request.FormFile("publishFile")
+	if err != nil {
+		ctx.Abort(405, "error, post without a file")
+		return
+	}
+	saveFile, err := os.Create("articles/" + head.Filename)
+	defer saveFile.Close()
+	io.Copy(saveFile, file)
+	file.Close()
+	ctx.Redirect(303, "/publish")
 }
