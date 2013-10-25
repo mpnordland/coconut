@@ -1,4 +1,8 @@
 
+body {
+    background-color: #b4aba8;
+}
+
 p {
     font-weight: bold;
 }
@@ -8,14 +12,14 @@ pre {
 }
 
 pre, code{
-    background-color: #eee;
-    color: #333;
+    background-color: #738821;
+    color: #281710;
     padding: 2px;
     border-radius: 5px;
 }
 
 #header {
-    background-color: #905B40;
+    background-color: #4b3025;
     color: #eee;
     padding:2em;
 }
@@ -24,6 +28,13 @@ pre, code{
     width: 90%;
     margin-left: auto;
     margin-right: auto;
+    padding-bottom: 1em;
+}
+
+#links {
+    background-color: #4b3025;
+    color: #eee;
+    padding: 1em;
 }
 
 .tags {

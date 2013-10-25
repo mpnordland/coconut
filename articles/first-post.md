@@ -4,7 +4,7 @@ author: You
 tags: 
   - first
   - new
-date: "Oct 24 2013"
+date: "Oct 24 2013 13:05"
 ---
 
 This is your first post! You can use markdown to format this.
