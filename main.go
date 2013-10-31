@@ -31,23 +31,25 @@ func main() {
 
 	controller.Init(c, server)
 
-	if c.UseHTTPS {
-		//setup for https
-		config := tls.Config{
-			Time: nil,
-		}
+	switch c.Protocol{
+        case "https":
+		    //setup for https
+		    config := tls.Config{
+			    Time: nil,
+		    }
 
-		config.Certificates = make([]tls.Certificate, 1)
-		config.Certificates[0], err = tls.LoadX509KeyPair(c.Certfile, c.Keyfile)
+		    config.Certificates = make([]tls.Certificate, 1)
+		    config.Certificates[0], err = tls.LoadX509KeyPair(c.Certfile, c.Keyfile)
 
-		if err != nil {
-			fmt.Println("error, could not load ssl cert and/or key")
-			return
-		}
+		    if err != nil {
+			    fmt.Println("error, could not load ssl cert and/or key")
+			    return
+		    }
+		    server.RunTLS(c.Address+":"+c.Port, &config)
+        case "http":
+		    server.Run(c.Address + ":" + c.Port)
+        case "fcgi":
+            server.RunFcgi(c.Address + ":" + c.Port)
 
-		server.RunTLS(c.Address+":"+c.Port, &config)
-
-	} else {
-		server.Run(c.Address + ":" + c.Port)
 	}
 }

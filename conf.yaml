@@ -10,8 +10,9 @@ pages:
     /about: pages/about.md
 
 
-#if you set this to true, you must set the properties below
-usehttps: false
+#One of 'http', 'https', 'fcgi'
+protocol: 'http'
+#you must set this if protocol is set to https
 #set these to the location of your TLS cert and key
 keyfile: ./ssl.key
 certfile: ./ssl.cert
