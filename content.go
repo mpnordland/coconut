@@ -17,6 +17,7 @@ type Article struct {
 	Author string
 	Tags   []string
 	Time   time.Time
+    FullView bool
 	Path   string
 	Body   string
 }
@@ -33,7 +34,7 @@ func GetArticle(fileName string) (*Article, error) {
 		fmt.Println("error getting pubdate:", err)
 	}
 
-	return &Article{md.Title, md.Author, md.Tags, d, strings.TrimSuffix(fileName, ".md"), string(blackfriday.MarkdownCommon(cont))}, nil
+	return &Article{md.Title, md.Author, md.Tags, d, true, strings.TrimSuffix(fileName, ".md"), string(blackfriday.MarkdownCommon(cont))}, nil
 }
 
 func (a *Article) Date() string {
