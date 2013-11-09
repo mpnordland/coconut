@@ -13,13 +13,13 @@ import (
 const DateFormat = "Jan _2 2006 15:04"
 
 type Article struct {
-	Title  string
-	Author string
-	Tags   []string
-	Time   time.Time
-    FullView bool
-	Path   string
-	Body   string
+	Title    string
+	Author   string
+	Tags     []string
+	Time     time.Time
+	FullView bool
+	Path     string
+	Body     string
 }
 
 func GetArticle(fileName string) (*Article, error) {

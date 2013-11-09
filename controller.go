@@ -34,7 +34,7 @@ func (c *Controller) Front() string {
 	var content string
 	articles := GetArticles()
 	for _, a := range articles {
-        a.FullView = false;
+		a.FullView = false
 		content += c.themeEngine.ThemeArticle(a)
 	}
 	if content == "" {
@@ -64,7 +64,7 @@ func (c *Controller) Tag(tag string) string {
 	articles := GetArticles()
 	for _, a := range articles {
 		if a.HasTag(tag) {
-            a.FullView = false
+			a.FullView = false
 			content += c.themeEngine.ThemeArticle(a)
 		}
 	}

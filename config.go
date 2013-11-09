@@ -10,7 +10,7 @@ type Config struct {
 	Address  string
 	Port     string
 	Pages    map[string]string
-    Protocol string
+	Protocol string
 	Certfile string
 	Keyfile  string
 }
