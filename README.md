@@ -1,6 +1,8 @@
 coconut
 =======
 
+**WARNING!!! If you are using coconut, you MUST upgrade to the latest git revision. There is a bug in earlier versions that only allows you to log in with a correct user name and an incorrect password. This includes empty passwords.**
+
 A simple markdown based blog engine.
 
 The configuration file is conf.yaml. It *must* exist because there are no builtin defaults.
