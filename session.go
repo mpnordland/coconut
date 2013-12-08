@@ -36,7 +36,7 @@ func (sm *SessionManager) Login(ctx *web.Context, user, pass string) bool {
 	if sm.LoggedIn(ctx) {
 		return true
 	}
-	if pHash, ok := sm.users[user]; ok && bcrypt.CompareHashAndPassword([]byte(pHash), []byte(pass)) != nil {
+	if pHash, ok := sm.users[user]; ok && bcrypt.CompareHashAndPassword([]byte(pHash), []byte(pass)) == nil {
 		id := makeSessionId()
 		sm.sessions = append(sm.sessions, id)
 		ctx.SetSecureCookie("TDB-user", id, 60)
