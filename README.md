@@ -11,6 +11,9 @@ Articles are in Markdown and should be placed in `articles` with the file extens
 
 You can use [coconut-post](https://github.com/mpnordland/coconut-post) to partially automate creating posts.
 
+A performance note: Coconut uses bcrypt for the hashed passwords in the config file. It's apart of the very basic login system used to protect the very basic publishing page.
+This may make it unsuitable for low powered servers. However, use of the login/publishing system is optional; no performance penalty will be incurred if they are not used.
+Another option may be to use a small work factor. Such a decision should be made based upon how often you back up stuff and how valuble the content on the blog is. The publishing system at present willingly overwrites articles.
 
 ![Screenshot of the default coconut setup](https://drive.google.com/file/d/0B_dqqSENmE0CUzhWOVFsSmx4em8/edit?usp=sharing "coconut")
 
