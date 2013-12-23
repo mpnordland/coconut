@@ -1,7 +1,8 @@
 #format username: <bcrypt password hash>
 #you can use bcrypt_password_hash (included) to create that
 users: 
-    admin: "$2a$12$aiTmsda0ZUcjWJ5PWqDnvOzONwRiisZUZGLv.fGF.SfT2O/9mG6Pi"
+    #The password in plain text is "this is a test". Please change it before exposing coconut to the internet
+    admin: "$2a$12$q7nELzKe1g377eRCU9lpnOJd2keEgcjh.6rFg.uxegkVT4gjLkM0S"
 
 address: 0.0.0.0
 port: 8888
