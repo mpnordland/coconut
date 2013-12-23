@@ -16,6 +16,8 @@ type Article struct {
 	Title    string
 	Author   string
 	Tags     []string
+    Image    string
+    HaveImage bool
 	Time     time.Time
 	FullView bool
 	Path     string
@@ -23,6 +25,7 @@ type Article struct {
 }
 
 func GetArticle(fileName string) (*Article, error) {
+    haveImage := true
 	data, err := ioutil.ReadFile("./articles/" + fileName)
 	if err != nil {
 		return nil, err
@@ -33,8 +36,10 @@ func GetArticle(fileName string) (*Article, error) {
 	if err != nil {
 		fmt.Println("error getting pubdate:", err)
 	}
-
-	return &Article{md.Title, md.Author, md.Tags, d, true, strings.TrimSuffix(fileName, ".md"), string(blackfriday.MarkdownCommon(cont))}, nil
+    if md.Image == ""{
+        haveImage = false
+    }
+	return &Article{md.Title, md.Author, md.Tags, md.Image, haveImage, d, true, strings.TrimSuffix(fileName, ".md"), string(blackfriday.MarkdownCommon(cont))}, nil
 }
 
 func (a *Article) Date() string {

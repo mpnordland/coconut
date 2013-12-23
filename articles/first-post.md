@@ -4,6 +4,7 @@ author: You
 tags: 
   - first
   - new
+image: "first-post.png"
 date: "Oct 24 2013 13:05"
 ---
 
