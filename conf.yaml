@@ -11,6 +11,8 @@ pages:
     /about: pages/about.md
 
 
+articlesperpage: 5
+
 #One of 'http', 'https', 'fcgi'
 protocol: 'http'
 #you must set this if protocol is set to https

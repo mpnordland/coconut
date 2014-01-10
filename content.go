@@ -55,7 +55,7 @@ func (a *Article) HasTag(tag string) bool {
 	return false
 }
 
-func GetArticles() ArticleSlice {
+func GetArticles(include func(*Article) bool) ArticleSlice {
 	articles := make(ArticleSlice, 0)
 	file, err := os.Open("./articles")
 	if err != nil {
@@ -72,7 +72,9 @@ func GetArticles() ArticleSlice {
 			if err != nil {
 				continue
 			}
-			articles = append(articles, a)
+            if include(a) {
+                articles = append(articles, a)
+            }
 		}
 	}
 	sort.Sort(sort.Reverse(articles))

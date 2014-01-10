@@ -9,6 +9,7 @@ import (
 type Controller struct {
 	themeEngine    *ThemeEngine
 	sessionManager *SessionManager
+    articlesPerPage int
 }
 
 func (c *Controller) Init(conf *Config, s *web.Server) {
@@ -30,17 +31,18 @@ func (c *Controller) makePageFunc(filename string) func() string {
 	}
 }
 
-func (c *Controller) Front() string {
+func (c *Controller) Front(ctx *web.Context) string {
 	var content string
-	articles := GetArticles()
+    articles, prev, next := paginate(GetArticles(func(a *Article) bool {return true}), c.articlesPerPage, getPageNum(ctx.Params))
 	for _, a := range articles {
 		a.FullView = false
 		content += c.themeEngine.ThemeArticle(a)
 	}
 	if content == "" {
 		content = "No articles found"
-	}
-	return c.themeEngine.Theme(content)
+    }
+
+	return c.themeEngine.Theme(c.themeEngine.ThemeList(content, prev, next))
 }
 
 func (c *Controller) Article(name string) string {
@@ -59,19 +61,17 @@ func (c *Controller) Page(path string) string {
 	return c.themeEngine.Theme(c.themeEngine.ThemePage(p))
 }
 
-func (c *Controller) Tag(tag string) string {
+func (c *Controller) Tag(ctx *web.Context, tag string) string {
 	var content string
-	articles := GetArticles()
+	articles, prev, next := paginate(GetArticles(func(a *Article) bool {return a.HasTag(tag)}), c.articlesPerPage, getPageNum(ctx.Params))
 	for _, a := range articles {
-		if a.HasTag(tag) {
-			a.FullView = false
-			content += c.themeEngine.ThemeArticle(a)
-		}
+        a.FullView = false
+        content += c.themeEngine.ThemeArticle(a)
 	}
 	if content == "" {
 		content = "No articles found"
 	}
-	return c.themeEngine.Theme(content)
+	return c.themeEngine.Theme(c.themeEngine.ThemeList(content, prev, next))
 }
 
 func (c *Controller) Login() string {

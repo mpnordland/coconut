@@ -30,7 +30,7 @@ func NewThemeEngine() (*ThemeEngine, error) {
 		return nil, err
 	}
 	t := ThemeEngine{w, make(map[string]*mustache.Template), make(chan bool, 1), make(chan ThemeRequest, 1), make(chan string, 1)}
-	files := []string{"layout", "article", "page"}
+	files := []string{"layout", "article", "page", "list"}
 	for _, f := range files {
 		path := makeThemeFileName(f)
 		t.loadTemplate(path)
@@ -50,6 +50,18 @@ func (t *ThemeEngine) ThemeArticle(a *Article) string {
 
 func (t *ThemeEngine) ThemePage(p *Page) string {
 	return t.sendThemeRequest(makeThemeFileName("page"), p)
+}
+
+func (t *ThemeEngine) ThemeList(content string, prev, next int) string {
+    data := map[string]interface{}{"content": content}
+
+    if prev > 0 {
+       data["prev"] = prev
+    }
+    if next > 0 {
+        data["next"] = next
+    }
+    return t.sendThemeRequest(makeThemeFileName("list"), data)
 }
 
 func (t *ThemeEngine) Theme(content string) string {
