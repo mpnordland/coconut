@@ -50,6 +50,9 @@ func paginate(articles ArticleSlice, numPerPage, page int) (rArticles ArticleSli
     if end >= len(articles){
         rArticles = articles[start:]
         next = -1
+    } else if start > len(articles) {
+        rArticles = make(ArticleSlice, 0)
+        next = -1
     } else {
         rArticles = articles[start:end]
     }
