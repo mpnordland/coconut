@@ -12,7 +12,7 @@ This is your first post! You can use markdown to format this.
 Markdown is a format designed for writers! coconut uses markdown for any content you want to enter.
 Articles go in the `articles` directory in your coconut installation dir.
 
-Technically, you can put pages anywhere, you just have to specify the url path for the page and the file path in conf.yaml.
+Technically, you can put pages anywhere under `static`, you just have to specify the url path for the page and the file path in conf.yaml.
 
 Here's some examples of what you can do:
     
