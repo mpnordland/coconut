@@ -22,9 +22,9 @@ func (c *Controller) Init(conf *Config, s *web.Server) {
     c.log = log.New(logFile, "[coconut]", log.LstdFlags|log.Lshortfile)
 	s.Get("/", c.Front)
 	s.Get("/login", c.Login)
-	//s.Get("/publish", c.Publish)
-	//s.Post("/login", c.LoginPost)
-	//s.Post("/publish", c.PublishPost)
+	s.Get("/publish", c.Publish)
+	s.Post("/login", c.LoginPost)
+	s.Post("/publish", c.PublishPost)
 	for url, filename := range conf.Pages {
 		s.Get(url, c.makePageFunc(filename))
 	}
