@@ -4,20 +4,27 @@ import (
 	"github.com/hoisie/web"
 	"io"
 	"os"
+    "log"
 )
 
 type Controller struct {
 	themeEngine    *ThemeEngine
 	sessionManager *SessionManager
     articlesPerPage int
+    log *log.Logger
 }
 
 func (c *Controller) Init(conf *Config, s *web.Server) {
+    logFile, err := os.Create("coconut.log")
+    if err != nil {
+        log.Fatalln("Error creating log file:", err)
+    }
+    c.log = log.New(logFile, "[coconut]", log.LstdFlags|log.Lshortfile)
 	s.Get("/", c.Front)
 	s.Get("/login", c.Login)
-	s.Get("/publish", c.Publish)
-	s.Post("/login", c.LoginPost)
-	s.Post("/publish", c.PublishPost)
+	//s.Get("/publish", c.Publish)
+	//s.Post("/login", c.LoginPost)
+	//s.Post("/publish", c.PublishPost)
 	for url, filename := range conf.Pages {
 		s.Get(url, c.makePageFunc(filename))
 	}
@@ -74,7 +81,8 @@ func (c *Controller) Tag(ctx *web.Context, tag string) string {
 	return c.themeEngine.Theme(c.themeEngine.ThemeList(content, prev, next))
 }
 
-func (c *Controller) Login() string {
+func (c *Controller) Login(ctx *web.Context) string {
+    c.log.Println(ctx.Request.RemoteAddr)
 	return c.Page("login.html")
 }
 

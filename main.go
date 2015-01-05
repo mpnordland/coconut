@@ -27,7 +27,7 @@ func main() {
 		fmt.Println("Error creating theme engine:", err)
 		return
 	}
-	controller := Controller{te, sm, c.ArticlesPerPage}
+	controller := Controller{themeEngine: te, sessionManager: sm, articlesPerPage: c.ArticlesPerPage}
 	controller.Init(c, server)
 	te.Run()
 	switch c.Protocol {
