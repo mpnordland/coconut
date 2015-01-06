@@ -11,13 +11,7 @@ func main() {
 	if err != nil {
 		fmt.Println("Error loading config file:", err)
 	}
-	//setup the key for secret cookies
-	s, err := makeKey(64)
-	if err != nil {
-		fmt.Println("Error setting up secure cookies:", err)
-		return
-	}
-	web.Config.CookieSecret = string(s)
+	web.Config.CookieSecret = c.CookieSecret
 
 	//setup server and handlers
 	server := web.NewServer()

@@ -6,6 +6,11 @@ coconut
 A simple markdown based blog engine.
 
 The configuration file is conf.yaml. It *must* exist because there are no builtin defaults.
+You will need to generate a new cookie secret for your install. You can do so with the following command:
+
+    dd if=/dev/urandom bs=64 count=1 | base64 > cookie && cat cookie && rm cookie
+
+It will output a long string at the end. Copy that string into your config file as the cookie secret.
 
 Articles are in Markdown and should be placed in `articles` with the file extension ".md". The theme files are in `static/theme`. Any static files like CSS and images should be placed in `static`. The login and publish pages are in there as well. Pages are in Markdown, with urls and file paths specified in conf.yaml. Note that all page file paths are relative to `static`.
 

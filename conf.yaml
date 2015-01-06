@@ -12,6 +12,9 @@ pages:
 
 
 articlesperpage: 5
+#You should generate a new key for your install
+#Check the readme for instructions
+cookiesecret: "0IOLBHUZKFXM6rinEFyLUtZ9u6El/NBAD1F3o2uATLARHHsBMf0VaI13hc5ujNopvomrnYFK7cU8HEJWkzJ9wQ=="
 
 #One of 'http', 'https', 'fcgi'
 protocol: 'http'

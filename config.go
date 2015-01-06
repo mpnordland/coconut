@@ -12,6 +12,7 @@ type Config struct {
 	Pages           map[string]string
 	ArticlesPerPage int
 	Protocol        string
+    CookieSecret    string
 	Certfile        string
 	Keyfile         string
 }
