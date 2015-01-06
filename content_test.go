@@ -1,10 +1,8 @@
 package main
 
 import (
-           "testing"
-           "os"
-           "fmt"
-           "time"
+	"testing"
+	"time"
 )
 
 const ArticleContent string = `---
@@ -31,153 +29,120 @@ This is a test Page!`
 //The tests for Article related functions all
 //get that article and test based upon it
 
-func getArticle(t *testing.T, articleName string) *Article{
-    article, err := GetArticle(articleName)
-    if err != nil {
-        t.Fatal("Existing article not found", err)
-    } 
-    return article
+func getArticle(t *testing.T, articleName string) *Article {
+	article, err := GetArticle(articleName)
+	if err != nil {
+		t.Fatal("Existing article not found", err)
+	}
+	return article
 }
 
 func TestGetArticleWithExistingArticle(t *testing.T) {
-    getArticle(t, "test-article.md")
+	getArticle(t, "test-article.md")
 }
 
 func TestGetArticleWithMissingArticle(t *testing.T) {
-    article, err := GetArticle("missing-article.md")
-    if err == nil && article != nil {
-        t.Fail()
-    } 
+	article, err := GetArticle("missing-article.md")
+	if err == nil && article != nil {
+		t.Fail()
+	}
 }
 
 func TestGetArticleMetadata(t *testing.T) {
-    article := getArticle(t, "test-article.md")
-    if article.Title != "Test Article" {
-        t.Fail()
-    }
-    if article.Author != "Coconut Test" {
-        t.Fail()
-    }
-    if article.Tags[0] != "article" || article.Tags[1] != "test" || article.Tags[2] != "post" {
-        t.Fail()
-    }
-    
-    if article.Image != "" && article.HaveImage {
-        t.Fail()
-    }
+	article := getArticle(t, "test-article.md")
+	if article.Title != "Test Article" {
+		t.Fail()
+	}
+	if article.Author != "Coconut Test" {
+		t.Fail()
+	}
+	if article.Tags[0] != "article" || article.Tags[1] != "test" || article.Tags[2] != "post" {
+		t.Fail()
+	}
 
-    time, err := time.Parse(DateFormat, "Jan  5 2015 13:50")
-    if err != nil {
-        t.Fatal("Parsing Date failed, this is a broken test.", err)
-    }
+	if article.Image != "" && article.HaveImage {
+		t.Fail()
+	}
 
-    if !article.Time.Equal(time){
-        t.Fail()
-    }
+	time, err := time.Parse(DateFormat, "Jan  5 2015 13:50")
+	if err != nil {
+		t.Fatal("Parsing Date failed, this is a broken test.", err)
+	}
+
+	if !article.Time.Equal(time) {
+		t.Fail()
+	}
 }
 
-func TestGetArticleBody(t *testing.T){
-    article := getArticle(t, "test-article.md")
-    if article.Body == ""{
-         t.Fail()
-    }
+func TestGetArticleBody(t *testing.T) {
+	article := getArticle(t, "test-article.md")
+	if article.Body == "" {
+		t.Fail()
+	}
 }
 
 func TestArticleHasTag(t *testing.T) {
-    article := getArticle(t, "test-article.md")
-    if !article.HasTag("article"){
-        t.Fail()
-    }
-    if !article.HasTag("test") {
-        t.Fail()
-    }
-    if !article.HasTag("post") {
-        t.Fail()
-    }
+	article := getArticle(t, "test-article.md")
+	if !article.HasTag("article") {
+		t.Fail()
+	}
+	if !article.HasTag("test") {
+		t.Fail()
+	}
+	if !article.HasTag("post") {
+		t.Fail()
+	}
 }
 
 func TestArticleDate(t *testing.T) {
-    article := getArticle(t, "test-article.md")
-    if article.Date() != "Jan  5 2015 13:50" {
-        t.Fail()
-    }
+	article := getArticle(t, "test-article.md")
+	if article.Date() != "Jan  5 2015 13:50" {
+		t.Fail()
+	}
 }
 
-func TestGetArticles(t *testing.T){
-    articles := GetArticles(func(a *Article) bool {return true})
-    if len(articles) != 2 {
-        t.Fail()
-    }
+func TestGetArticles(t *testing.T) {
+	articles := GetArticles(func(a *Article) bool { return true })
+	if len(articles) != 2 {
+		t.Fail()
+	}
 }
 
 //Test pages
 
 func getPage(t *testing.T, pageName string) *Page {
-    page, err := GetPage(pageName)
-    if err != nil || page == nil {
-        t.Fatal("Error getting existing page:", err)
-    }
-    return page
+	page, err := GetPage(pageName)
+	if err != nil || page == nil {
+		t.Fatal("Error getting existing page:", err)
+	}
+	return page
 }
 
 func TestGetPageWithExistingPage(t *testing.T) {
-    page, err := GetPage("pages/test-page.md")
-    if err != nil || page == nil {
-        t.Fail()
-    }
+	page, err := GetPage("pages/test-page.md")
+	if err != nil || page == nil {
+		t.Fail()
+	}
 }
 
 func TestGetPageWithMissingPage(t *testing.T) {
-    page, err := GetPage("pages/missing-page.md")
-    if err == nil || page != nil {
-        t.Fail()
-    }
+	page, err := GetPage("pages/missing-page.md")
+	if err == nil || page != nil {
+		t.Fail()
+	}
 }
 
 func TestGetPageMetadata(t *testing.T) {
-   page := getPage(t, "pages/test-page.md")
-   if page.Title != "Test Page" {
-       t.Fail()
-   } 
+	page := getPage(t, "pages/test-page.md")
+	if page.Title != "Test Page" {
+		t.Fail()
+	}
 }
 
 func TestGetPageBody(t *testing.T) {
-   page := getPage(t, "pages/test-page.md")
-   if page.Body == "" {
-       t.Fail()
-    }
+	page := getPage(t, "pages/test-page.md")
+	if page.Body == "" {
+		t.Fail()
+	}
 }
 
-func TestMain(m *testing.M){
-    //file names for the tests
-    articleFile := "./articles/test-article.md"
-    pageFile := "./static/pages/test-page.md"
-    
-    //create the files
-    file, err := os.Create(articleFile)
-    if err != nil {
-        fmt.Fprintln(os.Stderr, "Failed setting up for tests", err)
-        os.Exit(1)
-    }
-    file.WriteString(ArticleContent)
-    file.Close()
-
-    file, err = os.Create(pageFile)
-    if err != nil {
-        fmt.Fprintln(os.Stderr, "Failed setting up for tests", err)
-        os.Exit(1)
-    }
-    file.WriteString(PageContent)
-    file.Close()
-
-    //run the tests
-    exitCode := m.Run()
-
-    //clean up after the tests
-    os.Remove(articleFile)
-    os.Remove(pageFile)
-
-    //finally, exit
-    os.Exit(exitCode)
-
-}

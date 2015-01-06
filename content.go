@@ -13,19 +13,19 @@ import (
 const DateFormat = "Jan _2 2006 15:04"
 
 type Article struct {
-	Title    string
-	Author   string
-	Tags     []string
-    Image    string
-    HaveImage bool
-	Time     time.Time
-	FullView bool
-	Path     string
-	Body     string
+	Title     string
+	Author    string
+	Tags      []string
+	Image     string
+	HaveImage bool
+	Time      time.Time
+	FullView  bool
+	Path      string
+	Body      string
 }
 
 func GetArticle(fileName string) (*Article, error) {
-    haveImage := true
+	haveImage := true
 	data, err := ioutil.ReadFile("./articles/" + fileName)
 	if err != nil {
 		return nil, err
@@ -36,9 +36,9 @@ func GetArticle(fileName string) (*Article, error) {
 	if err != nil {
 		fmt.Println("error getting pubdate:", err)
 	}
-    if md.Image == ""{
-        haveImage = false
-    }
+	if md.Image == "" {
+		haveImage = false
+	}
 	return &Article{md.Title, md.Author, md.Tags, md.Image, haveImage, d, true, strings.TrimSuffix(fileName, ".md"), string(blackfriday.MarkdownCommon(cont))}, nil
 }
 
@@ -72,9 +72,9 @@ func GetArticles(include func(*Article) bool) ArticleSlice {
 			if err != nil {
 				continue
 			}
-            if include(a) {
-                articles = append(articles, a)
-            }
+			if include(a) {
+				articles = append(articles, a)
+			}
 		}
 	}
 	sort.Sort(sort.Reverse(articles))

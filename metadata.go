@@ -9,7 +9,7 @@ type Metadata struct {
 	Title  string
 	Author string
 	Date   string
-    Image  string
+	Image  string
 	Tags   []string
 }
 

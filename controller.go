@@ -3,23 +3,23 @@ package main
 import (
 	"github.com/hoisie/web"
 	"io"
+	"log"
 	"os"
-    "log"
 )
 
 type Controller struct {
-	themeEngine    *ThemeEngine
-	sessionManager *SessionManager
-    articlesPerPage int
-    log *log.Logger
+	themeEngine     *ThemeEngine
+	sessionManager  *SessionManager
+	articlesPerPage int
+	log             *log.Logger
 }
 
 func (c *Controller) Init(conf *Config, s *web.Server) {
-    logFile, err := os.Create("coconut.log")
-    if err != nil {
-        log.Fatalln("Error creating log file:", err)
-    }
-    c.log = log.New(logFile, "[coconut]", log.LstdFlags|log.Lshortfile)
+	logFile, err := os.Create("coconut.log")
+	if err != nil {
+		log.Fatalln("Error creating log file:", err)
+	}
+	c.log = log.New(logFile, "[coconut]", log.LstdFlags|log.Lshortfile)
 	s.Get("/", c.Front)
 	s.Get("/login", c.Login)
 	s.Get("/publish", c.Publish)
@@ -40,14 +40,14 @@ func (c *Controller) makePageFunc(filename string) func() string {
 
 func (c *Controller) Front(ctx *web.Context) string {
 	var content string
-    articles, prev, next := paginate(GetArticles(func(a *Article) bool {return true}), c.articlesPerPage, getPageNum(ctx.Params))
+	articles, prev, next := paginate(GetArticles(func(a *Article) bool { return true }), c.articlesPerPage, getPageNum(ctx.Params))
 	for _, a := range articles {
 		a.FullView = false
 		content += c.themeEngine.ThemeArticle(a)
 	}
 	if content == "" {
 		content = "No articles found"
-    }
+	}
 
 	return c.themeEngine.Theme(c.themeEngine.ThemeList(content, prev, next))
 }
@@ -70,10 +70,10 @@ func (c *Controller) Page(path string) string {
 
 func (c *Controller) Tag(ctx *web.Context, tag string) string {
 	var content string
-	articles, prev, next := paginate(GetArticles(func(a *Article) bool {return a.HasTag(tag)}), c.articlesPerPage, getPageNum(ctx.Params))
+	articles, prev, next := paginate(GetArticles(func(a *Article) bool { return a.HasTag(tag) }), c.articlesPerPage, getPageNum(ctx.Params))
 	for _, a := range articles {
-        a.FullView = false
-        content += c.themeEngine.ThemeArticle(a)
+		a.FullView = false
+		content += c.themeEngine.ThemeArticle(a)
 	}
 	if content == "" {
 		content = "No articles found"
@@ -82,7 +82,7 @@ func (c *Controller) Tag(ctx *web.Context, tag string) string {
 }
 
 func (c *Controller) Login(ctx *web.Context) string {
-    c.log.Println(ctx.Request.RemoteAddr)
+	c.log.Println(ctx.Request.RemoteAddr)
 	return c.Page("login.html")
 }
 

@@ -6,14 +6,14 @@ import (
 )
 
 type Config struct {
-	Users    map[string]string
-	Address  string
-	Port     string
-	Pages    map[string]string
-    ArticlesPerPage int
-	Protocol string
-	Certfile string
-	Keyfile  string
+	Users           map[string]string
+	Address         string
+	Port            string
+	Pages           map[string]string
+	ArticlesPerPage int
+	Protocol        string
+	Certfile        string
+	Keyfile         string
 }
 
 func LoadConfig(filename string) (*Config, error) {

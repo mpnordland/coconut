@@ -5,12 +5,12 @@ import (
 	"github.com/hoisie/web"
 	"math/rand"
 	"strconv"
-    "time"
+	"time"
 )
 
-type session struct{
-    id string
-    expiresOn time.Time
+type session struct {
+	id        string
+	expiresOn time.Time
 }
 
 type SessionManager struct {
@@ -31,16 +31,16 @@ func (sm *SessionManager) SessionExists(id string) bool {
 	return false
 }
 
-func (sm *SessionManager) removeExpired(){
-    w := 0
-    for _, s := range sm.sessions {
-        if time.Now().After(s.expiresOn) {
-            continue
-        }
-        sm.sessions[w] = s
-        w++
-    }
-    sm.sessions = sm.sessions[:w]
+func (sm *SessionManager) removeExpired() {
+	w := 0
+	for _, s := range sm.sessions {
+		if time.Now().After(s.expiresOn) {
+			continue
+		}
+		sm.sessions[w] = s
+		w++
+	}
+	sm.sessions = sm.sessions[:w]
 }
 
 func (sm *SessionManager) LoggedIn(ctx *web.Context) bool {
@@ -51,12 +51,12 @@ func (sm *SessionManager) LoggedIn(ctx *web.Context) bool {
 }
 
 func (sm *SessionManager) Login(ctx *web.Context, user, pass string) bool {
-    sm.removeExpired()
+	sm.removeExpired()
 	if sm.LoggedIn(ctx) {
 		return true
 	}
 	if pHash, ok := sm.users[user]; ok && bcrypt.CompareHashAndPassword([]byte(pHash), []byte(pass)) == nil {
-        s := session{makeSessionId(), time.Now().Add(2*time.Minute)}
+		s := session{makeSessionId(), time.Now().Add(2 * time.Minute)}
 		sm.sessions = append(sm.sessions, s)
 		ctx.SetSecureCookie("TDB-user", s.id, 120)
 		return true

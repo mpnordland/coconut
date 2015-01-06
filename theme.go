@@ -53,15 +53,15 @@ func (t *ThemeEngine) ThemePage(p *Page) string {
 }
 
 func (t *ThemeEngine) ThemeList(content string, prev, next int) string {
-    data := map[string]interface{}{"content": content}
+	data := map[string]interface{}{"content": content}
 
-    if prev > 0 {
-       data["prev"] = prev
-    }
-    if next > 0 {
-        data["next"] = next
-    }
-    return t.sendThemeRequest(makeThemeFileName("list"), data)
+	if prev > 0 {
+		data["prev"] = prev
+	}
+	if next > 0 {
+		data["next"] = next
+	}
+	return t.sendThemeRequest(makeThemeFileName("list"), data)
 }
 
 func (t *ThemeEngine) Theme(content string) string {
