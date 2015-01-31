@@ -39,7 +39,7 @@ func GetArticle(fileName string) (*Article, error) {
 	if md.Image == "" {
 		haveImage = false
 	}
-	return &Article{md.Title, md.Author, md.Tags, md.Image, haveImage, d, true, strings.TrimSuffix(fileName, ".md"), string(blackfriday.MarkdownCommon(cont))}, nil
+	return &Article{md.Title, md.Author, md.Tags, md.Image, haveImage, d, true, fileName, string(blackfriday.MarkdownCommon(cont))}, nil
 }
 
 func (a *Article) Date() string {

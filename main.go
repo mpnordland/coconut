@@ -11,17 +11,15 @@ func main() {
 	if err != nil {
 		fmt.Println("Error loading config file:", err)
 	}
-	web.Config.CookieSecret = c.CookieSecret
 
 	//setup server and handlers
 	server := web.NewServer()
-	sm := NewSessionManager(c)
 	te, err := NewThemeEngine()
 	if err != nil {
 		fmt.Println("Error creating theme engine:", err)
 		return
 	}
-	controller := Controller{themeEngine: te, sessionManager: sm, articlesPerPage: c.ArticlesPerPage}
+	controller := Controller{themeEngine: te, articlesPerPage: c.ArticlesPerPage}
 	controller.Init(c, server)
 	te.Run()
 	switch c.Protocol {

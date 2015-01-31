@@ -6,13 +6,11 @@ import (
 )
 
 type Config struct {
-	Users           map[string]string
 	Address         string
 	Port            string
 	Pages           map[string]string
 	ArticlesPerPage int
 	Protocol        string
-    CookieSecret    string
 	Certfile        string
 	Keyfile         string
 }

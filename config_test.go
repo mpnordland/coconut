@@ -4,9 +4,7 @@ import (
     "testing"
 )
 const ConfigFile string = "test_config.yaml"
-const ConfigContent string = `users: 
-    admin: "$2a$12$q7nELzKe1g377eRCU9lpnOJd2keEgcjh.6rFg.uxegkVT4gjLkM0S"
-#test comment
+const ConfigContent string = `#test comment
 address: 0.0.0.0
 port: 8888
 pages: 
@@ -36,9 +34,6 @@ func TestLoadConfigWithMissingFile(t *testing.T) {
 
 func TestLoadConfigOutput(t *testing.T){
     config := getConfig(t)
-    if user, ok := config.Users["admin"]; !ok || user != "$2a$12$q7nELzKe1g377eRCU9lpnOJd2keEgcjh.6rFg.uxegkVT4gjLkM0S"{
-        t.Fail()
-    }
     if config.Address != "0.0.0.0" {
         t.Fail()
     }
